@@ -33,6 +33,7 @@ RUN composer global require edgedesign/phpqa \
 
 FROM prepare
 
+# Add Magento 2 standard to PHP CodeSniffer
 RUN ln -s /composer/vendor/magento/magento-coding-standard/Magento2 /composer/vendor/squizlabs/php_codesniffer/src/Standards
 
 VOLUME ["/app"]
