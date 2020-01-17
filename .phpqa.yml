@@ -1,14 +1,14 @@
 phpqa:
   # default CLI options - https://github.com/EdgedesignCZ/phpqa#analyze
   # can be overriden by CLI: phpqa --tools phpcs:1
-  analyzedDirs: ./app/code
+  analyzedDirs: ./
   buildDir: build/
   ignoredDirs: vendor,Test
   ignoredFiles: ""
   report: false
   execution: parallel
   output: file
-  tools: phpmetrics,phploc,phpcs,php-cs-fixer,phpmd,pdepend,phpcpd,parallel-lint
+  tools: phpmetrics,phploc,phpcs,php-cs-fixer,phpcbf,phpmd,pdepend,phpcpd,parallel-lint
   # array definition and allowed errors count is supported too
   # tools: [phploc, phpcs:0]
   verbose: false
@@ -20,7 +20,7 @@ phpqa:
 
 phpcs:
   # alternatively you can use an array to define multiple standards (https://github.com/squizlabs/PHP_CodeSniffer/wiki/Usage#specifying-a-coding-standard)
-  standard: Magento2
+  standard: "Magento2"
   # number of allowed errors is compared with warnings+errors, or just errors from checkstyle.xml
   ignoreWarnings: false
   # https://github.com/squizlabs/PHP_CodeSniffer/wiki/Reporting
@@ -117,6 +117,7 @@ tool:
   phpmetrics: [Edge\QA\Tools\Analyzer\PhpMetrics, Edge\QA\Tools\Analyzer\PhpMetricsV2]
   phploc: Edge\QA\Tools\Analyzer\Phploc
   phpcs: [Edge\QA\Tools\Analyzer\Phpcs, Edge\QA\Tools\Analyzer\PhpcsV3]
+  phpcbf: [Edge\QA\Tools\Analyzer\Phpcs, Edge\QA\Tools\Analyzer\PhpcsV3]
   php-cs-fixer: Edge\QA\Tools\Analyzer\PhpCsFixer
   phpmd: Edge\QA\Tools\Analyzer\Phpmd
   pdepend: Edge\QA\Tools\Analyzer\Pdepend

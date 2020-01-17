@@ -1,11 +1,29 @@
+# Set defaults
+ARG BASE_IMAGE="php:7.2-alpine"
+ARG PACKAGIST_NAME="smartbeetles/phpqa"
+ARG PHPQA_NAME="phpqa"
+ARG VERSION="0.0.1"
+
 # Base image with alias
-FROM php:7.2-alpine as prepare
+FROM ${BASE_IMAGE} as prepare
+
+ARG COMPOSER_IMAGE
+ARG PACKAGIST_NAME
+ARG VERSION
+ARG PHPQA_NAME
+ARG VERSION
+ARG BUILD_DATE
+ARG VCS_REF
+ARG IMAGE_NAME
 
 # Install addition packages
 RUN apk update \
     && apk add \
     libxslt-dev
 RUN docker-php-ext-install simplexml xsl
+
+# Install Tini - https://github.com/krallin/tini
+RUN apk add --no-cache tini
 
 # Register the COMPOSER_HOME environment variable
 ENV COMPOSER_HOME /composer
@@ -33,11 +51,23 @@ RUN composer global require edgedesign/phpqa \
 
 FROM prepare
 
-# Add Magento 2 standard to PHP CodeSniffer
-RUN ln -s /composer/vendor/magento/magento-coding-standard/Magento2 /composer/vendor/squizlabs/php_codesniffer/src/Standards
+# Add Magento 2 standards to PHP CodeSniffer
+RUN phpcs --config-set installed_paths /composer/vendor/magento/magento-coding-standard/Magento2
 
 # Main config file changed
-COPY .phpqa.yml /composer/vendor/edgedesign/phpqa
+COPY ./.phpqa.yml /composer/vendor/edgedesign/phpqa/
+
+# Add image labels
+LABEL org.label-schema.schema-version="1.0" \
+      org.label-schema.vendor="phpqa" \
+      org.label-schema.name="${PHPQA_NAME}" \
+      org.label-schema.version="${VERSION}" \
+      org.label-schema.build-date="${BUILD_DATE}" \
+      org.label-schema.url="https://github.com/smartbeetles/${PHPQA_NAME}" \
+      org.label-schema.usage="https://github.com/smartbeetles/${PHPQA_NAME}/README.md" \
+      org.label-schema.vcs-url="https://github.com/smartbeetles/${PHPQA_NAME}.git" \
+      org.label-schema.vcs-ref="${VCS_REF}" \
+      org.label-schema.docker.cmd="docker run --rm --volume \${PWD}:/app --workdir /app ${IMAGE_NAME}"
 
 VOLUME ["/app"]
 WORKDIR /app
