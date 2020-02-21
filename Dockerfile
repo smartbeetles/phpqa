@@ -4,7 +4,8 @@ FROM php:7.2-alpine as prepare
 # Install addition packages
 RUN apk update \
     && apk add \
-    libxslt-dev
+    libxslt-dev \
+    bash
 RUN docker-php-ext-install simplexml xsl
 
 # Register the COMPOSER_HOME environment variable
@@ -29,7 +30,8 @@ RUN composer global require edgedesign/phpqa \
                     vimeo/psalm \
                     phpstan/phpstan \
                     nette/neon phpunit/phpunit \
-                    magento/magento-coding-standard
+                    magento/magento-coding-standard \
+                    belvg/phpqa-phpcbf:1.0.1
 
 FROM prepare
 
@@ -41,6 +43,3 @@ COPY .phpqa.yml /composer/vendor/edgedesign/phpqa
 
 VOLUME ["/app"]
 WORKDIR /app
-
-ENTRYPOINT ["phpqa"]
-CMD ["--help"]
