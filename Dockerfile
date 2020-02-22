@@ -19,8 +19,7 @@ ARG IMAGE_NAME
 # Install addition packages
 RUN apk update \
     && apk add \
-    libxslt-dev \
-    bash
+    libxslt-dev
 RUN docker-php-ext-install simplexml xsl
 
 # Install Tini - https://github.com/krallin/tini
