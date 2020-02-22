@@ -49,7 +49,7 @@ RUN composer global require edgedesign/phpqa \
                     phpstan/phpstan \
                     nette/neon phpunit/phpunit \
                     magento/magento-coding-standard \
-                    belvg/phpqa-phpcbf:1.0.2
+                    belvg/phpqa-phpcbf:1.0.3
 
 FROM prepare
 
