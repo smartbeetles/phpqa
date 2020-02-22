@@ -1,1 +1,1 @@
-# phpqa
+# PHP Quality Assurance
