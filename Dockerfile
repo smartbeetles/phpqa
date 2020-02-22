@@ -73,3 +73,6 @@ LABEL org.label-schema.schema-version="1.0" \
 
 VOLUME ["/app"]
 WORKDIR /app
+
+ENTRYPOINT ["phpqa"]
+CMD ["--help"]
